@@ -1,17 +1,18 @@
 #ifndef CHESS_SEARCH_H
-# define CHESS_SEARCH_H
+#define CHESS_SEARCH_H
 #endif
 
 #define UPDATEPV() \
- ()
-typedef struct {
+	()
+
+typedef struct
+{
 	unsigned int key;
-	//Move moves[MAXMOVES];
 	int nmoves;
-}MoveRecord;
+} MoveRecord;
 
-typedef struct{
-
+typedef struct
+{
 	int Nodes;
 	int Captures;
 	int eps;
@@ -20,21 +21,20 @@ typedef struct{
 	int Checks;
 	int CheckMates;
 
-}SearchStats;
+} SearchStats;
 
-int Quiescence(int , Boardmap *, int , int );
-int Search(int , Boardmap *, int , int );
-//int QueryTT(TTEntry *);
+int Quiescence(int, Boardmap *, int, int);
+int Search(int, Boardmap *, int, int);
 
-static inline void UpdatePV(int ,Move *);
+static inline void UpdatePV(int, Move *);
 
 extern Move PV[MAX_DEPTH]; // Principal Variation Heuristic
 extern int PVScores[MAX_DEPTH];
-extern Move BEST,BEAST;
+extern Move BEST, BEAST;
 extern short Mhistory[64][64];
-extern Move  Killers[2];
+extern Move Killers[2];
 extern int Scores[MAX_DEPTH];
-extern int Galpha,Gbeta;
+extern int Galpha, Gbeta;
 extern int GNodes[MAX_DEPTH];
 extern int GlobalNodeCount;
 extern int GlobalQuiescenceNodes;

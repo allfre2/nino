@@ -5,20 +5,21 @@
 #define OPENING_NAME_LEN 30
 #define MAXOPENINGMOVES 20
 #define MAXBOOKSIZE 1024
-typedef struct {
 
-	int * BookMoves;
+typedef struct
+{
+	int *BookMoves;
 	short nmoves;
 	unsigned int key;
 
-}OpeningBookEntry;
+} OpeningBookEntry;
 
 int SaveOpeningBook(OpeningBookEntry *, char *, int);
-void * ReadBook(char *, int *);
+void *ReadBook(char *, int *);
 int freeBookMem(OpeningBookEntry *, int);
 int ImproveBook(OpeningBookEntry *, Pgn *);
 int toBookMove(Move *); /* Pack a Move struct into an int*/
-int fromBookMove(int , Move *);
+int fromBookMove(int, Move *);
 
 /* Opening Book binary format:
 	int - > describing how many entries there are in the book (n_entries)
@@ -58,5 +59,4 @@ flags can be:
 
 	1000 0000	White move
 	0000 0000	Black move
-
 */

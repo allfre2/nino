@@ -2,9 +2,9 @@
 #define EVAL_H
 #endif
 
-int Eval(Boardmap *);/* Lazy evaluation */
+int Eval(Boardmap *); /* Lazy evaluation */
 int Material(Boardmap *);
-int DrawEval(Boardmap *);/* Eval position for a draw */
+int DrawEval(Boardmap *);    /* Eval position for a draw */
 int SEE(Move *, Boardmap *); /* Static exchange evaluation */
 int Lazyflag;
 

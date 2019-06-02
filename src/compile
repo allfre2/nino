@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-#i
-#don't
-#know
-#proper
-#bash
-#scripting
 
 if [ "$1" == "win32" ] || [ "$1" == "all" ]; then
 	i686-w64-mingw32-gcc -o ../bin/nino.exe -std=c99 main.c common.c gen.c search.c eval.c book.c debug.c thread.c notation.c move.c UI.c hash.c variants.c tm.c tt.c xboard.c

@@ -59,13 +59,6 @@ $ make
 
 `order` Orders available moves (according to some heuristic I can't remember) and outputs them
 
-## Warning
-
-The code is EXTREMELY messy and dirty ... and I really don't care to clean it up at this stage. Maybe later :/
-
-It helped me understand lots of new concepts regarding the C language, data structures, algorithms, game theory, multithreading, and even chess (which I have been playing since 8, reading theory books and participating on tournaments).
-
-The chess engine is named after my cat nino. It's alive and well after 12 years.
 
 ## Things I learned and implemented
 
@@ -77,13 +70,20 @@ The chess engine is named after my cat nino. It's alive and well after 12 years.
 * [Pthreads](https://en.wikipedia.org/wiki/POSIX_Threads)
 * [Iterative deepening](https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search)
 * [Quiescence Search](https://en.wikipedia.org/wiki/Quiescence_search)
-* [Hashing, Trasposition tables](https://en.wikipedia.org/wiki/Transposition_table) (Yes I wrote a really dumb hashing function)
+* [Hashing, Trasposition tables](https://en.wikipedia.org/wiki/Transposition_table)
 * [FEN parsing](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)
 
 ## Screenshots
 
+Linux terminal mode
+
+![Screenshot](linuxshell.png)
+
+Executing on Arena for windows
+
+![Screenshot](ninoOnArena.png)
 
 
 ## License
 
-Seriously ?
+yes

@@ -1,15 +1,13 @@
-
 uint64 RightSqs[64];
-uint64 LeftSqs [64];
-uint64 UpSqs   [64];
-uint64 DownSqs [64];
+uint64 LeftSqs[64];
+uint64 UpSqs[64];
+uint64 DownSqs[64];
 
-/* Diagonals here ! */
 uint64 BishopURSqs[64];
 uint64 BishopULSqs[64];
 uint64 BishopDRSqs[64];
 uint64 BishopDLSqs[64];
-/**/
+
 uint64 KnightSqs[64];
 
 uint64 PwnSqs[2][64];

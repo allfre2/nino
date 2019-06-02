@@ -3,5 +3,6 @@
 #endif
 
 int Xboard();
-int Post(Boardmap * );
-extern int force,post;
+int Post(Boardmap *);
+
+extern int force, post;
