@@ -1,0 +1,52 @@
+
+
+
+
+ an ilegal move can happen if:
+
+
+	1) the king goes to an attacked square.
+	
+	2) the king stays on an attaccked ray/square.
+
+	3) A piece discovers the attack of a ray.
+
+
+THIS CASES HAVE TO BE REMOVED WHEN THE MOVES ARE BEING
+GENERATED.
+
+
+	case 1)
+
+	easily covered just moves & ~attakedbyoponent
+
+	case 2)
+	 all moves must interact with the rays or pieces
+         that are attacking the king.
+	 this case is only to be handled when the king is in
+	 check.
+	 and the special case when the king moves back in the same 
+	 ray that it is being attacked.
+
+	 # list pieces that are giving check and their rays.
+	   proceed to eliminate all moves that dont interact
+	   with this rays.
+	   if one of the pieces is a knight moves must be 
+	   just the king moves and the ones that take the knight
+	   but if there are more than 1 hit/check just the king moves
+
+	   then allways take in account the rays so not to fall
+	   in check again.
+
+	case 3)
+
+	  most difficult case...
+	  when king is in check all the moves will try to 
+	  interact with the rays or pieces that are attacking
+	  but they cant uncover new ones.
+
+	  this case is to be handled when king is in check 
+	  and when it's not.
+
+
+

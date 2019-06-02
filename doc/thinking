@@ -1,0 +1,54 @@
+
+
+/*
+
+
+ ... 0 1 0 1 1 1 1 1	empty [2]   ... 0 0 1 0 0 0 0 0
+ ... 0 1 1 1 0 0 0 0	attackd [2] ... 1 1 1 1 1 1 1 0
+ ... 0 1 0 0 0 1 1 0	pieces [6][2] ... 0 0 0 0 1 1 0 0
+ ... 1 1 1 0 1 0 1 1	moves [64] ... 1 1 1 0 0 0 1 1
+
+
+imagine move is 1 to 2
+
+
+ empty would look like this :
+
+ ... 0 0 1 1 1 1 1 1	... 0 0 1 0 0 0 0 0 
+
+ pieces would change like this assuming piece is rook
+
+ pieces[rook][turn] 
+ ... 0 0 1 0 0 0 0
+
+ and if the other side had a piece in the destination sq remove from thier pieces 
+ 
+ Now ... IN the attackd bitmap the attacks corresponding to the moving piece and the captured pieces should 
+ disapear...
+
+ 
+
+*/
+
+
+
+
+######################################################################
+# Mapping the bitmaps considering only affected squares by last move #
+######################################################################
+
+
+ for every move there is a set of modified squares in the position;
+ these squares should be marked in a uint64 and passed to the mapping routine or something of sorts
+
+ then the mapping routine should loop through the pieces than are affected by  the changes of the board 
+ and re-calculate their moves
+
+ I expect than the average number of pieces affected by a single move is never more than say 10
+ making the number of iterations for the mapping function less than 10 most of the time
+
+ A square is affected by a move if :
+
+	A piece moved off that square
+	A piece has ben placed onto that square
+	

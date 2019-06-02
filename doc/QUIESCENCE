@@ -1,0 +1,9 @@
+
+
+
+
+Algoritmo para la busqueda quiescence que utilizra mi motor de ajedrez:
+
+
+
+ La finalidad de quiescence es solo evaluar posiciones que sean quietas para tener un score favorable. 

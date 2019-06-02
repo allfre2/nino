@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# a configuration script that will detect if
+# This script will detect if system is 32 bit or 64 bit,
+# if the system has gcc installed, in the future maybe the number
+# of cores of the system to ad a -D to the CFLAGS variable and
+# compile with a proper amount of threads, etc, etc ...

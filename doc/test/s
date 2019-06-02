@@ -1,0 +1,61 @@
+set 8/3P3k/n2K3p/2p3n1/2b5N1/2p1p1P1/8/3B4 w - -
+play 5
+pause
+set
+moves
+move 11
+moves
+move 13
+moves
+move 11
+#think
+play 5
+quiescence
+eval
+pause
+set
+moves
+move 11
+moves
+move 13
+#think
+play 5
+quiescence
+eval
+pause
+set r5k1/1b4pp/6N1/8/P7/KQ6/8/8 b - -
+boardinfo
+#think
+play 5
+quiescence
+eval 
+pause
+set r6k/6pp/7N/8/P7/KQ6/8/8 w - -
+boardinfo
+#think 10
+play 5
+quiescence
+eval
+pause
+set 3r3k/5R1p/1Q1qb1pP/8/5P2/3p3N/6PK/8 w - -
+boardinfo
+play 5
+quiescence
+eval
+set r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -
+boardinfo
+play 4
+quiescence
+eval
+set 8/5p1p/5p1P/5P2/2P3P1/1K6/p7/1k5B w - -
+
+set 4r3/7P/5kPK/8/8/8/5P2/8 w - -
+
+play 6
+
+set 8/7p/5R2/3k2p1/8/1p6/p5r1/K7 w - -
+
+set 3n3k/2R5/2n1P3/3N2N1/8/1p6/2r3r1/K7 w - -
+set 8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w -
+set K7/1P6/1kP5/3P4/8/8/1p5b/8/ w -
+set 4rN2/p3PR2/2pb4/2p3k1/8/5K1P/P7/8 w -

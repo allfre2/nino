@@ -1,0 +1,9 @@
+When in trouble follow these steps:
+
+
+	* Stop programming
+	* From the ground up think wich pieces of code are actually flawless
+	* Clean and optimize the good parts of the code
+	* Start Building/Debugging aech new piece individualy
+	* Think of UNIQUE task for every piece of the program
+	* delimit the function of that part very well

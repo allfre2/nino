@@ -1,0 +1,62 @@
+
+==== REFACTOR ====
+
+Deshacerme de macros largas y lentas
+Hacer que los bitboards generados sean estaticos y no generados 
+ al iniciar el motor.
+Deshacermede funciones largas y lentas
+Mejorar la forma de sort y de otras funciones
+Limpiar el codigo en general y asegurarme de lo que esta funciona correctamente
+Reconocer exactamente los bugs faltantes y documentarlos para eliminarlos.
+
+
+
+ ==== TODO ====
+ 0. Limpiar y definir funciones del codigo.
+ 1. Arreglar y definir funcion quiescence. ( lo bassico usando see )
+ 2. Arreglar funcion see
+ 3. Definir y arreglar el PV
+ 4. Hacer hashkeys 64 bit.
+ 5. Implementar la tabla de transposiciones y de peones. (!)
+ 6. Crear funcion de ordenamiento de jugadas. ( Dependiendo de la fase de la partida y el tipo de posicion )
+ 7. Limpiar y dar forma (casi) final a el codigo <---------- (!)
+    hacerlo legible ordenado y optimizarlo.
+
+* ??? QUIESCENCE SEARCH!!!! ???? :(
+
+* Null move prunning/reductions
+* Check extensions, one move reply extensions
+* History Heuristic, Killer Moves -> Ordenamiento de jugadas
+
+* ? Fase del juego, eval, 
+* Ordenamiento de jugadas -> Late Move reductions
+* Transposition table
+
+ ==== Ideas ====
+.
+..
+... Crear autotunning para afinar el motor automaticamente
+.... Añadir algo de randomness para aparentar humano
+..... 
+
+
+ IDEA: Que mi funcion de ordenamiento no ordene las jugadas igual para todas las posiciones
+ en cada posicion el orden a considerar de las jugadas varia dependiendo de que este pasando 
+ en el tablero.
+  por ejemplo si se busca mate se deben poner los jaques y los safricicios cercanos al rey primero
+  , si se busca una ventaja posicional se deben buscar primero las jugadas en las que se mueven las
+ piezas a casillas importantes.
+  Para esto mi funcion de ordenar las jugadas debe tener en cuenta la fase de la partida
+ y otros elementos de los cuales talves se lleve cuenta dinamicamente en la busqueda.
+No SIEMPRE deben ir las capturas primero, NO SIEMPRE los jaques primero.
+
+Esta informacion que se mantendra talves pueda ser usada por funciones como Quiescence 
+ para determinar mejor que "es" una posicion tranquila.
+
+
+
+
+Usar una coneccion cruda usando netcat para permitir a alguien jugar contra mi motor de ajedrez.
+
+por ejemplo en mi maquina poner a netcat escuchando y sirviendo el output de mi motor en modo xBoard.
+Luego decir a alguien que ejecute xBoard tome como input nc a mi maquina ... algo asi.

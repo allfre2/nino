@@ -1,0 +1,39 @@
+
+
+.
+.
+.
+Think:
+	Tiene como proposito empezar un thread.
+	Y en este ejecutar la funcion Iterate que hara un iterative deepening.
+	Tambien interrumpir el iterative deepening dependiendo de si 
+	se acaba el tiempo o alguna se~al indica la terminacion de el
+	Iterative deepening (el termino del thread o un comando para acabar)
+
+Iterate:
+	usar la variable global current_depth para hacer  un iterative deepening
+	llamando a la funcion search. 
+	Tener una region critica donde se guarden los resultados de cada
+	llamada a search. Detener la iteracion si:
+		* Se alcanza la profundidad maxima
+		* Se encuentra una jugada definitiva o inevitable
+			(mate, tablas, jugada unica, etc)
+		* Imprimir informacion de el estado de la busqueda (opvional)
+Search:
+
+	Recursivamente pasar por todos los nodos de cada posicion y usando
+	una serie de tecnicas devolver el PV (eficientemente), la mejor
+	jugada, el score de esta jugada y otros datos estadisticos(opcional)
+
+Quiescence:
+
+	LLevar la posicion a una situacion tranquila para poder evaluar correctamente
+	Usa alpha y beta tambien para podar sus nodos.
+	Usa a SEE para descartar jugadas en las cuales despues del intercambio de piezas 
+	se pierda material.
+	
+SEE:
+	Tomara una posicion y una casilla y evaluara el resultado del intercambio de piezas en esa casilla 
+	contando las piezzas de menor a mayor.
+	Devuelve un valor positivo si la captura es favorable y uno negativo si no lo es
+

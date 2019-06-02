@@ -1,0 +1,31 @@
+set r1b1r1k1/1ppn1p1p/3pnqp1/8/p1P1P3/5P2/PbNQNBPP/1R2RB1K w - - bm Rxb2; id "position 04";
+map 1
+pause
+allsqmoves 1
+allsqmoves 2
+allsqmoves 3
+allsqmoves 
+set q3rn1k/2QR4/pp2pp2/8/P1P5/1P4N1/6n1/6K1 w - - bm Nf5; id "position 11";
+map 1
+allsqmoves 1
+allsqmoves 2
+allsqmoves 3
+allsqmoves 
+set 8/3nk3/3pp3/1B6/8/3PPP2/4K3/8 w - - bm Bxd7; id "position 25";
+map 1
+allsqmoves 1
+allsqmoves 2
+allsqmoves 3
+allsqmoves 
+set r2q1r1k/pb3p1p/2n1p2Q/5p2/8/3B2N1/PP3PPP/R3R1K1 w - - bm Bxf5; id "position 15";
+map 1
+allsqmoves 1
+allsqmoves 2
+allsqmoves 3
+allsqmoves 
+set rnbqkbnr/pppppppp/8/8/8/6p1/PPPPPPPP/RNBQKBNR w KQkq - 
+map 1
+allsqmoves 1
+allsqmoves 2
+allsqmoves 3
+allsqmoves 

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#i
+#don't
+#know
+#proper
+#bash
+#scripting
+
+if [ "$1" == "win32" ] || [ "$1" == "all" ]; then
+	i686-w64-mingw32-gcc -o ../bin/nino.exe -std=c99 main.c common.c gen.c search.c eval.c book.c debug.c thread.c notation.c move.c UI.c hash.c variants.c tm.c tt.c xboard.c
+fi
+
+if [ "$1" == "win64" ] || [ "$1" == "all" ]; then
+	x86_64-w64-mingw32-gcc -o ../bin/nino64.exe -std=c99 main.c common.c gen.c search.c eval.c book.c debug.c thread.c notation.c move.c hash.c UI.c variants.c tm.c tt.c xboard.c
+
+fi
+
+gcc -o ../bin/nino -Wall -std=c99 main.c common.c gen.c search.c eval.c book.c debug.c thread.c notation.c move.c hash.c UI.c variants.c tm.c tt.c xboard.c -lpthread
+
+#x86_64-w64-mingw32-gcc d.c # for 64 bit cross-compilation

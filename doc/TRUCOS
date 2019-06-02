@@ -1,0 +1,18 @@
+
+
+Para calcular si el rey puede atrapar un peon, en lugar de
+calcular n plys mas profundo usar el truco de la "caja"
+	"Si el rey puede entrar a la `caja` formada por la
+	 diagonal hasta la fila de promocion de el peon y la
+	 distancia entre el peon y esta fila, entonces puede
+	 detenerlo"
+
+ . K . . . . . .
+ . . . . . . p .
+ . . . . . . . .
+ . . . . . . . .
+ . . . . . . . .
+ . . . . . . . .
+ . . . . . . . .
+ . . . . . . . .
+ . . . . . . . .

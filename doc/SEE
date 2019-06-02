@@ -1,0 +1,26 @@
+
+
+
+
+
+
+..kq....
+...R.n..
+...r....
+...b....
+..BRP...
+...R.Q..
+...r..Q.
+.......K
+
+set 2kq4/3R1n2/3r4/3b4/2BRP3/3R1Q2/3r2Q1/7K w -
+
+Si hago un shift con los bits de  pieza en cuestion, 
+  => en el caso de la torre puede ser >> 1, << 1, >> 8 o << 8
+  => en el caso del alfil puede ser >> 7, >> 9, << 7 o << 9
+  => en el caso de la dama puede ser todos los anteriores
+   oooo puede ser el bitmap de todas las direcciones del punto para el rey!
+ entonces el subconjunto de la interseccion de los rayos desde el punto al
+ que se ataca, el punto de la pieza que ataca , el shift en todas
+ las direcciones de la pieza debe de dar y los puntos que no estan en el bitspace
+ de los dos puntos es la pieza detras del punto de la pieza de ataque. 

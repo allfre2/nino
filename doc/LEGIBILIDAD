@@ -1,0 +1,22 @@
+
+
+Para que el codigo sea totalmente legible:
+
+	#1. Cada funcion debe cumplir una tarea UNICA, y Concisa.
+
+	#2. delimitar cada nivel de funcionalidad haciendo que el codigo sea
+		lo mas parecido a una "narracion" posible (resumir los pedazos
+		 de codigo en acciones concretas, usar macros para operaciones
+		 obfuscantes *calculos matematicos* ):
+
+	ejemplo:
+		int Map(Boardmap *);
+		/* mapea en palabras de 64 bits diferentes aspectos de las
+		   piezas correspondientes a la estructura Boarmap */
+			para c/u de las 64 casillas (sq)
+			
+			buscar la pieza en una tabla
+
+			si la pieza esta en la tabla
+
+			
