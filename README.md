@@ -90,8 +90,7 @@ Executing on Arena for windows
 
 ![Screenshot](ninoOnArena.png)
 
-I'll post a screenshot for the linux terminal soon. The color and unicode escape codes don't work the same on windows.
 
 ## License
 
-Seriously ?
+yes
