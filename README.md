@@ -82,6 +82,10 @@ The chess engine is named after my cat nino. It's alive and well after 12 years.
 
 ## Screenshots
 
+Linux terminal mode
+
+![Screenshot](linuxshell.png)
+
 Executing on Arena for windows
 
 ![Screenshot](ninoOnArena.png)
