@@ -1,5 +1,4 @@
-# 0k my first makefile and this is a comment
-# the compiler to use is:
+
 CC = gcc
 CFLAGS = -std=c99 -O2 -Wall -w
 POSIXTHREADS = -lpthread
