@@ -4,102 +4,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int SaveOpeningBook(OpeningBookEntry *OpeningBook, char *filename, int nEntries)
-{
-	FILE *book = fopen(filename, "wb");
-	ASSERT(book != NULL);
-	fwrite(&(nEntries), sizeof(int), 1, book); /*The Number of entries is the fisrt int of the file*/
+const int ABKStartIndex = 900;
 
-	for (int i = 0; i < nEntries; ++i)
+ABKBook * ReadOpeningBook (char * filename)
+{
+	ABKBook * abk = malloc(sizeof(ABKBook));
+	FILE * file = fopen(filename, "r");
+	printf("%x", file);
+
+	fseek(file, 0, SEEK_END);
+	int size = (ftell(file)/sizeof(ABKMoveEntry)) - ABKStartIndex;
+
+	printf("\n%x\nsize: %d", file, size); getchar();
+	
+	fseek(file, 0, SEEK_SET); // rewind
+	fseek(file, ABKStartIndex*sizeof(ABKMoveEntry), 0); // Start to read moves From ABKStartIndex
+
+	ABKMoveEntry * book = malloc(sizeof(ABKMoveEntry) * size);
+
+	for (int i = 0; i < size; ++i)
 	{
-		fwrite(&(OpeningBook[i].key), sizeof(unsigned int), 1, book); // Key of the first position
-		fwrite(&(OpeningBook[i].nmoves), sizeof(short), 1, book);	  // Number of moves to come
-		fwrite(OpeningBook[i].BookMoves, sizeof(int), OpeningBook[i].nmoves, book);
+		fread(&(book[i]), sizeof(ABKMoveEntry), 1, file);
 	}
 
-	fclose(book);
-}
-
-void *ReadBook(char *BookFileName, int *nEntries)
-{
-	int result;
-	FILE *book = fopen(BookFileName, "rb");
-
-	if (book == NULL)
-		return NULL;
-
-	result = fread(nEntries, sizeof(int), 1, book); // how many entries are in the book
-
-	OpeningBookEntry *OpeningBook = malloc(sizeof(OpeningBookEntry) * (*nEntries));
-
-	if (OpeningBook == NULL)
+	for (int i = 0; i < size; ++i)
 	{
-		fclose(book);
-		return NULL;
-	}
-
-	for (int i = 0; i < (*nEntries); ++i)
-	{
-		result = fread(&(OpeningBook[i].key), sizeof(unsigned int), 1, book); // read positions hash key
-		result = fread(&(OpeningBook[i].nmoves), sizeof(short), 1, book);	  // read nmoves[BLACK] and nmoves[WHITE]
-		OpeningBook[i].BookMoves = malloc(sizeof(int) * OpeningBook[i].nmoves);
-
-		if (OpeningBook[i].BookMoves == NULL)
+		if (book[i].to != 0)
 		{
-			fclose(book);
-			free(OpeningBook);
-			return NULL;
+			PrintMoveEntry(&(book[i]));
+			getchar();
 		}
-
-		fread((OpeningBook[i].BookMoves), sizeof(int), OpeningBook[i].nmoves, book);
 	}
 
-	fclose(book);
-	return (void *)OpeningBook;
+	abk->book = book;
+	abk->size = size;
+
+	free(book);
+	free(abk);
+	fclose(file);
+
+	return NULL;
 }
 
-int freeBookMem(OpeningBookEntry *OpeningBook, int nEntries)
+void CloseOpeningBook(ABKBook * abk)
 {
-	for (int i = 0; i < nEntries && i < MAXBOOKSIZE; ++i)
-	{
-		free(OpeningBook[i].BookMoves);
-	}
-
-	free(OpeningBook);
+	free(abk->book);
+	free(abk);
 }
 
-int toBookMove(Move *move)
+void PrintMoveEntry(ABKMoveEntry * book)
 {
-	int BookMove = 0;
-
-	/* Without handling puntuation or flags for the move for now*/
-	if (move->castle)
-	{
-		BookMove |= (int)(move->castle) << 0x10;
-	}
-	else
-	{
-		BookMove |= (int)(move->from) << 0x08;
-		BookMove |= (int)(move->to);
-		/* if the move is not castle and is promotion the castle part of the int holds the promotiong piece */
-		if (move->promote)
-			BookMove |= (int)(move->promote) << 0x10;
-	}
-
-	return BookMove;
+	printf("\nfrom: %i\n to: %i\n nextMove: %i\n nextSibling: %i\n, ngames: %i\n, nlost: %i\n nwon: %i\n plycount: %i\n priority: %i\n promotion: %i\n",
+		book->from,
+		book->to,
+		book->nextMove,
+		book->nextSibling,
+		book->ngames,
+		book->nlost,
+		book->nwon,
+		book->plycount,
+		book->priority,
+		book->promotion);
 }
 
-int fromBookMove(int BookMove, Move *move)
+void FromBookMove(ABKMoveEntry * book, Move * move)
 {
-	/* define this magic number 0x0000ffff  */
-	if (BookMove & 0x0000ffff)
-	{ /* If it has a from or to field then it is not a castling move*/
-		move->to = (char)BookMove;
-		move->from = (char)(BookMove >> 0x08);
-		move->promote = (char)(BookMove >> 0x10);
-	}
-	else
-	{
-		move->castle = (char)(BookMove >> 0x10);
-	}
+
 }

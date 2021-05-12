@@ -8,6 +8,7 @@
 #include "tt.h"
 #include "eval.h"
 #include "search.h"
+#include "tm.h"
 #include "thread.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,8 +25,9 @@
 int verbose;
 uint64 higligth;
 _perftResults results[MAX_DEPTH];
-char movie[10];
+char moveOutput[10];
 char fen[50];
+StopWatch stopWatch;
 
 int _perft(int ply, _perftArgs *args, _perftResults results[])
 {
@@ -147,17 +149,16 @@ int fakeperft(int testcases)
 	memset(moves, 0, sizeof(Move) * MAXMOVES);
 	SetfromFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -", &Position);
 	printBoardinfo(&Position);
-	double initialTime, finalTime;
 	int nmoves = 0;
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		nmoves = GenMoves(&Position, moves);
 	}
-	finalTime = clock();
-	printf("\n--> Generated %d moves in %f seconds.\n", nmoves * testcases, (finalTime - initialTime) / (CLOCKS_PER_SEC));
+	Stop(&stopWatch);
+	printf("\n--> Generated %d moves in %f seconds.\n", nmoves * testcases, stopWatch.elapsed);
 
-	genfinal = (nmoves * testcases) / (((finalTime - initialTime) / CLOCKS_PER_SEC));
+	genfinal = (nmoves * testcases) / stopWatch.elapsed;
 	printf("==> Generates ~ %.2f moves per second", genfinal);
 
 	for (int i = 0; i < nmoves; i++)
@@ -166,15 +167,15 @@ int fakeperft(int testcases)
 		printmove(&moves[i], &Position, _SHORT);
 	}
 
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		nmoves = GenCaptures(&Position, moves);
 	}
-	finalTime = clock();
-	printf("\n--> Generated %d captures in %f seconds.\n", nmoves * testcases, (finalTime - initialTime) / (CLOCKS_PER_SEC));
+	Stop(&stopWatch);
+	printf("\n--> Generated %d captures in %f seconds.\n", nmoves * testcases, stopWatch.elapsed);
 
-	capturefinal = (nmoves * testcases) / (((finalTime - initialTime) / CLOCKS_PER_SEC));
+	capturefinal = (nmoves * testcases) / stopWatch.elapsed;
 	printf("==> Generates ~ %.2f captures per second", capturefinal);
 
 	for (int i = 0; i < nmoves; i++)
@@ -183,17 +184,17 @@ int fakeperft(int testcases)
 		printmove(&moves[i], &Position, _SHORT);
 	}
 
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		_fastMap(&Position, 0x000f);
 	}
-	finalTime = clock();
-	printf("\n--> fastMap'd %d positions in %f seconds.\n", testcases, (finalTime - initialTime) / (CLOCKS_PER_SEC));
-	mapfinal = (testcases) / (((finalTime - initialTime) / CLOCKS_PER_SEC));
+	Stop(&stopWatch);
+	printf("\n--> fastMap'd %d positions in %f seconds.\n", testcases, stopWatch.elapsed);
+	mapfinal = (testcases) / stopWatch.elapsed;
 	printf("==> fastMaps ~ %.2f Positions per second", mapfinal);
 
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		for (int j = 0; j < nmoves; ++j)
@@ -202,24 +203,24 @@ int fakeperft(int testcases)
 			UnMakeMove(&(moves[j]), &Position);
 		}
 	}
-	finalTime = clock();
+	Stop(&stopWatch);
 
-	printf("\n--> maked and unmaked %d moves in %f seconds.\n", nmoves * testcases, (finalTime - initialTime) / (CLOCKS_PER_SEC));
-	makefinal = (nmoves * testcases) / ((finalTime - initialTime) / CLOCKS_PER_SEC);
+	printf("\n--> maked and unmaked %d moves in %f seconds.\n", nmoves * testcases, stopWatch.elapsed);
+	makefinal = (nmoves * testcases) / stopWatch.elapsed;
 	printf("==> makes and un-makes %.2f moves per second", makefinal);
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		Eval(&Position);
 	}
-	finalTime = clock();
-	printf("\n--> evaluated %d positions in %f seconds.\n", testcases, (finalTime - initialTime) / (CLOCKS_PER_SEC));
-	evalfinal = (testcases) / (((finalTime - initialTime) / CLOCKS_PER_SEC));
+	Stop(&stopWatch);
+	printf("\n--> evaluated %d positions in %f seconds.\n", testcases, stopWatch.elapsed);
+	evalfinal = testcases / stopWatch.elapsed;
 	printf("==> Evaluates ~ %.2f Positions per second", evalfinal);
 
 	Move m;
 
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		for (int sq = 0; sq < 64; ++sq)
@@ -228,20 +229,20 @@ int fakeperft(int testcases)
 			SEE(&m, &Position);
 		}
 	}
-	finalTime = clock();
-	printf("\n--> see()'d %d positions in %f seconds.\n", testcases * 64, (finalTime - initialTime) / (CLOCKS_PER_SEC));
-	seefinal = (testcases * 64) / (((finalTime - initialTime) / CLOCKS_PER_SEC));
+	Stop(&stopWatch);
+	printf("\n--> see()'d %d positions in %f seconds.\n", testcases * 64, stopWatch.elapsed);
+	seefinal = (testcases * 64) / stopWatch.elapsed;
 	printf("==> see()'s ~ %.2f Positions per second", seefinal);
 
-	initialTime = clock();
+	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
 		Quiescence(20, &Position, -INFINITY, INFINITY);
 	}
-	finalTime = clock();
-	printf("\n--> Quiescence'd %d times in %f seconds.\n", testcases, (finalTime - initialTime) / (CLOCKS_PER_SEC));
+	Stop(&stopWatch);
+	printf("\n--> Quiescence'd %d times in %f seconds.\n", testcases, stopWatch.elapsed);
 
-	quiescencefinal = (testcases) / (((finalTime - initialTime) / CLOCKS_PER_SEC));
+	quiescencefinal = testcases / stopWatch.elapsed;
 	printf("==> Quiescences ~ %.2f times per second", quiescencefinal);
 
 	engine_cicle = (evalfinal + makefinal + ((genfinal))) / 3;
@@ -269,8 +270,11 @@ int printmoves(Boardmap *Bmap, int sq)
 #endif
 		if (i % 8 == 0)
 			sqc ^= 1;
-		printf("%s%c%c%s%s%s ", i % 8 ? "" : "\n ", i % 8 ? '\0' : (char)('8' - (i / 8)), i % 8 ? '\0' : ' ', color[sqc + 2], color[COLOR(Bmap->board[i])],
-			   Bmap->moves[sq] & 0 ? "*" : (Bmap->board[i] == EMPTY) && nux ? higligth & (BIT(i)) ? "*" : " " : wPieces[Bmap->board[i]]);
+		printf("%s%c%c%s%s%s ", 
+			i % 8 ? "" : "\n ", 
+			i % 8 ? '\0' : (char)('8' - (i / 8)), i % 8 ? '\0' : ' ', 
+			color[sqc + 2], color[COLOR(Bmap->board[i])],
+			Bmap->moves[sq] & 0 ? "*" : (Bmap->board[i] == EMPTY) && nux ? higligth & (BIT(i)) ? "*" : " " : wPieces[Bmap->board[i]]);
 	}
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -281,12 +285,15 @@ int printmoves(Boardmap *Bmap, int sq)
 #endif
 }
 
-void printull(unsigned long long x)
+void printULL(unsigned long long x)
 {
-	unsigned long long bleh = 1;
 	for (unsigned long long i = 0; i < 64; ++i)
 	{
-		printf("%c%c%s", i % 4 ? '\0' : ' ', x & (bleh << i) ? '1' : '0', (i + 1) % 32 == 0 ? "\n" : "");
+		printf("%c%c%s", 
+			i % 4 ? '\0' : ' ', 
+			x & (one << i) ? '1' : '0', 
+			(i + 1) % 32 == 0 ? "\n" : ""
+		);
 	}
 }
 
@@ -299,7 +306,7 @@ void printBitmap(uint64 bitmap, int sq)
 	}
 }
 
-void printattckd(Boardmap *Bmap, char side)
+void printAttackedSquares(Boardmap *Bmap, char side)
 {
 	for (uint64 i = 0; i < 64; ++i)
 	{
@@ -316,29 +323,29 @@ void printmove(Move *move, Boardmap *Position, int n)
 	{
 		if (move->castle & SHORTCASTLE)
 		{
-			movie[0] = 'O';
-			movie[1] = '-';
-			movie[2] = 'O';
-			movie[3] = '\0';
+			moveOutput[0] = 'O';
+			moveOutput[1] = '-';
+			moveOutput[2] = 'O';
+			moveOutput[3] = '\0';
 		}
 		else
 		{
-			movie[0] = 'O';
-			movie[1] = '-';
-			movie[2] = 'O';
-			movie[3] = '-';
-			movie[4] = 'O';
-			movie[5] = '\0';
+			moveOutput[0] = 'O';
+			moveOutput[1] = '-';
+			moveOutput[2] = 'O';
+			moveOutput[3] = '-';
+			moveOutput[4] = 'O';
+			moveOutput[5] = '\0';
 		}
 	}
 	else
 	{
-		movie[0] = COLUMNCHAR(move->from);
-		movie[1] = ROWCHAR(move->from);
-		movie[2] = COLUMNCHAR(move->to);
-		movie[3] = ROWCHAR(move->to);
-		movie[4] = move->promote > 0 ? Pieces[move->promote] : '\0';
-		movie[5] = '\0';
+		moveOutput[0] = COLUMNCHAR(move->from);
+		moveOutput[1] = ROWCHAR(move->from);
+		moveOutput[2] = COLUMNCHAR(move->to);
+		moveOutput[3] = ROWCHAR(move->to);
+		moveOutput[4] = move->promote > 0 ? Pieces[move->promote] : '\0';
+		moveOutput[5] = '\0';
 	}
 	if (move->castle)
 	{
@@ -427,12 +434,7 @@ int printM(Move *move, Boardmap *Position)
 
 int printPV(Line *pv, Boardmap *Position)
 {
-	int moven;
-	moven = 1;
-	char comment[4];
-	int nmoves, mate;
 	Boardmap TMP;
-	Move moves[MAXMOVES];
 	memcpy(&TMP, Position, sizeof(Boardmap));
 	for (int i = 0; i < pv->length; ++i)
 	{
@@ -451,8 +453,6 @@ void debugFramework()
 	int no_promt = 0;
 
 	int Nodes[MAX_DEPTH];
-
-	double initialTime, finalTime;
 
 	char commands[255];
 	char tokens[5][MAXFENLEN];
@@ -500,7 +500,6 @@ void debugFramework()
 			else
 				break;
 		}
-		int j;
 		if (strcmp(commands, "\n") == 0 || strcmp(commands, "") == 0)
 		{
 			if (tokens[0][0] == 0)
@@ -510,15 +509,16 @@ void debugFramework()
 		}
 
 		ntokens = 0;
+		int token_char;
 		for (int i = 0; commands[i] && i < 255; ++i)
 		{
 			if ((commands[i] == ' ' || commands[i] == '\t' || commands[i] == '\n'))
 				continue;
 
-			for (j = 0; !(commands[i] == ' ' || commands[i] == '\t' || commands[i] == '\n') && i < MAXFENLEN; ++j)
-				tokens[ntokens][j] = commands[i++];
+			for (token_char = 0; !(commands[i] == ' ' || commands[i] == '\t' || commands[i] == '\n') && i < MAXFENLEN; ++token_char)
+				tokens[ntokens][token_char] = commands[i++];
 
-			tokens[ntokens][j] = 0;
+			tokens[ntokens][token_char] = 0;
 			if (++ntokens >= 5)
 				break;
 		}
@@ -556,9 +556,9 @@ void debugFramework()
 			memset(results, 0, sizeof(_perftResults) * MAX_DEPTH);
 
 			printf("\n => Calculating perft(%d) ...\n", depth);
-			initialTime = clock();
+			Start(&stopWatch);
 			_perft(depth, &args, results);
-			finalTime = clock();
+			Stop(&stopWatch);
 #ifndef ONLYLEGALGEN
 			for (int i = depth; i > 0; --i)
 			{
@@ -566,14 +566,14 @@ void debugFramework()
 				printf("\tnodes: %d\n\tcaptures: %d\n\te.p: %d\n\tcastles: %d\n\tpromotions: %d\n\tchecks: %d\n",
 					   results[i].nodes, results[i].captures, results[i].ep, results[i].castles, results[i].promotions, results[i].checks);
 			}
-			printf(" Completed in : %f\n", (finalTime - initialTime) / CLOCKS_PER_SEC);
+			printf(" Completed in : %f\n", stopWatch.elapsed);
 
 #else
 
 			printf("\n\n => perft(%d):\n", current_depth);
 			printf("\tnodes: %d\n\tcaptures: %d\n\te.p: %d\n\tcastles: %d\n\tpromotions: %d\n\tchecks: %d\n",
 				   results[current_depth].nodes, results[current_depth].captures, results[current_depth].ep, results[current_depth].castles, results[current_depth].promotions, results[current_depth].checks);
-			printf(" Completed in : %f\n", (finalTime - initialTime) / CLOCKS_PER_SEC);
+			printf(" Completed in : %f\n", stopWatch.elapsed);
 #endif
 		}
 		else if (strcmp(tokens[0], "stop-perft") == 0)
@@ -653,7 +653,7 @@ void debugFramework()
 			}
 		}
 		else if (strcmp(tokens[0], "eval") == 0)
-		{ /* takes arguments saying the kind of eval to be done */
+		{
 			printf("\n => %d", Eval(&Position));
 		}
 		else if (strcmp(tokens[0], "see") == 0)
@@ -700,50 +700,6 @@ void debugFramework()
 		else if (strcmp(tokens[0], "hash") == 0 || strcmp(tokens[0], "h") == 0)
 		{
 			printf("\n => %x ", HashKey(&Position));
-
-			/***delete***/
-			uint64 test = 0x22;
-			int v;
-			uint64 qwer = AllBishopSqs[63] & AllBishopSqs[18];
-			printBitmap(qwer, 18);
-			printf("\n\n ");
-			// make a macro for the bits beetwen to bits
-			qwer = (BIT(63) - 1) ^ (BIT(18) - 1);
-			qwer |= BIT(63) | BIT(18);
-			printBitmap(qwer, 18);
-			printf("\n\n ");
-			uint64 a, b;
-			int co = 1;
-			a = 0x1;
-		cvx:
-
-			for (int i = 0; i < 64; ++i)
-			{
-				b = BIT(i);
-				printf("\na = %d, b = %d\n", co, i);
-				qwer = /*BITSPACE(a,b) & (*/ BishopURSqs[i] & BishopDLSqs[co];
-				printBitmap(qwer, i);
-				printf("\n\n");
-				getchar();
-			}
-
-			a <<= co++;
-			if (a)
-				goto cvx;
-			LOG2(test, v);
-			printull(test);
-			printf("\n\n Log2 of %llu = %d\n", test, v);
-			for (uint64 i = 0; i < 520000; ++i)
-			{
-				uint64 msb;
-				MSB(i, msb);
-				printull(i);
-				printf("\n\n MSB of %llu = %llu\n", i, msb);
-				printull(msb);
-				if (getchar() == 'q')
-					break;
-			}
-			/***delete***/
 		}
 		else if (strcmp(tokens[0], "key") == 0)
 		{
@@ -755,7 +711,7 @@ void debugFramework()
 		}
 		else if (strcmp(tokens[0], "attacked") == 0)
 		{
-			printattckd(&Position, Position.turn);
+			printAttackedSquares(&Position, Position.turn);
 		}
 		else if (strcmp(tokens[0], "fen") == 0)
 		{
@@ -780,7 +736,7 @@ void debugFramework()
 				SetfromFEN(fen, &Position);
 			}
 			else
-				SetfromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", &Position);
+				SetfromFEN(StartPositionFEN, &Position);
 		}
 		else if (strcmp(tokens[0], "move") == 0)
 		{
@@ -836,11 +792,11 @@ void debugFramework()
 			{
 			case 1:
 				printf("\nwhite attacked:");
-				printattckd(&Position, WHITE);
+				printAttackedSquares(&Position, WHITE);
 				printBoardinfo(&Position);
 				getchar();
 				printf("\nblack attacked:");
-				printattckd(&Position, BLACK);
+				printAttackedSquares(&Position, BLACK);
 				printBoardinfo(&Position);
 				break;
 			case 2:
@@ -887,9 +843,9 @@ void debugFramework()
 				break;
 			}
 		}
-		else if (strcmp(tokens[0], "new") == 0)
+		else if (strcmp(tokens[0], "book") == 0)
 		{
-			NOTIMPLEMENTED;
+			ABKBook * abkBook = ReadOpeningBook(tokens[1]);
 		}
 		else if (strcmp(tokens[0], "file") == 0)
 		{
@@ -949,16 +905,16 @@ void debugFramework()
 			int what = Eval(&Position);
 			printf("\n => Quiescence score: %d\n", Quiescence(MAX_DEPTH - current_depth, &Position, -INFINITY, INFINITY));
 		}
-		else if (strcmp(tokens[0], "search") == 0 || strcmp(tokens[0], "play") == 0 || strcmp(tokens[0], ";") == 0 || strcmp(tokens[0], "'") == 0)
+		else if (strcmp(tokens[0], "search") == 0 || 
+		         strcmp(tokens[0], "play") == 0 || 
+				 strcmp(tokens[0], ";") == 0 || 
+				 strcmp(tokens[0], "'") == 0)
 		{
-			/*DELETE ME*/
-			double EBF; /*effective branching factor*/
-			/***************/
+			double EBF; /*Effective Branching Factor*/
 
 			flags = 0;
 			memset(Scores, 0, sizeof(int) * MAX_DEPTH);
 			int ply = 3;
-			double it, ft;
 			if (ntokens > 1)
 			{
 				ply = atoi(tokens[1]);
@@ -966,27 +922,30 @@ void debugFramework()
 			current_depth = ply;
 			GlobalNodeCount = 0;
 			memset(Mhistory, 0, sizeof(short) * 64 * 64);
-			it = clock();
+			Start(&stopWatch);
 			int score = Search(ply, &Position, -INFINITY - MAX_DEPTH, INFINITY + MAX_DEPTH);
-			ft = clock();
+			Stop(&stopWatch);
 			Nodes[ply] = GlobalNodeCount;
 			EBF = ply > 0 ? Nodes[ply - 1] > 0 ? Nodes[ply] / Nodes[ply - 1] : Nodes[ply] : 0;
+
 			if (strcmp(tokens[0], "play") == 0 || strcmp(tokens[0], "'") == 0)
 			{
-				if (BEAST.flags != NOMOVE)
+				if (TMP_BEST.flags != NOMOVE)
 				{
-					makefn[1](&BEAST, &Position);
-					memcpy(&moveHistory[nhistory], &BEAST, sizeof(Move));
+					makefn[1](&TMP_BEST, &Position);
+					memcpy(&moveHistory[nhistory], &TMP_BEST, sizeof(Move));
 					nhistory += (nhistory >= 99 ? 0 : 1);
 				}
 			}
+
 			printBoardinfo(&Position);
 			printf("\n");
 			printPV(&pv[current_depth], &Position);
-			if (BEAST.flags != NOMOVE)
+
+			if (TMP_BEST.flags != NOMOVE)
 			{
 				printf("\n => move: ");
-				printmove(&BEAST, &Position, 666);
+				printmove(&TMP_BEST, &Position, 666);
 			}
 			else
 				printf("\n => There aren't any legal moves in this position.");
@@ -1016,7 +975,7 @@ void debugFramework()
 				}
 			}
 			printf("\n => Score: %c%d\n", matestr, sc);
-			printf(" => Concluded ply %d search in %.2f. (%d Nodes)", ply, (ft - it) / CLOCKS_PER_SEC, Nodes[ply]);
+			printf(" => Concluded ply %d search in %.2f. (%d Nodes)", ply, stopWatch.elapsed, Nodes[ply]);
 			printf("\n => EBF: %.2f", EBF);
 		}
 		else if (strcmp(tokens[0], "verbose") == 0 || strcmp(tokens[0], "v") == 0)
@@ -1035,11 +994,8 @@ void debugFramework()
 		else if (strcmp(tokens[0], "think") == 0 || strcmp(tokens[0], "\\") == 0)
 		{
 			char turn;
-			/*DELETE ME*/
 			double EBF; /*effective branching factor*/
-			/***************/
 			Game game;
-			double ft, it;
 			float TimeToThink;
 			TimeToThink = 5;
 			memset(Mhistory, 0, sizeof(short) * 64 * 64);
@@ -1056,11 +1012,11 @@ void debugFramework()
 			if (!xboard)
 				printf("%sply\tscore\ttime\tnodes\tPV\n", debug ? "alpha\t\tbeta\t\t" : "");
 			printf("%s---\t-----\t----\t-----\t--\n\n", debug ? "-----\t\t----\t\t" : "");
-			it = clock();
+			Start(&stopWatch);
 			Think(&game);
 			WAIT(IterativeDeepening);
-			ft = clock();
-			if (BEAST.flags != NOMOVE)
+			Stop(&stopWatch);
+			if (TMP_BEST.flags != NOMOVE)
 			{
 				makefn[1](&BEST, &Position);
 				higligth = 0;
@@ -1077,7 +1033,7 @@ void debugFramework()
 			else
 				EBF = (GNodes[current_depth - 1] + GNodes[current_depth]) / 2;
 
-			if (BEAST.flags != NOMOVE)
+			if (TMP_BEST.flags != NOMOVE)
 			{
 				printf("\n move: ");
 				printmove(&BEST, &game.Position, 666);
@@ -1095,7 +1051,7 @@ void debugFramework()
 				sc /= 2;
 			}
 			printf("\n => Score: %c%d\n", matestr, sc);
-			printf(" => Concluded ply %d search in ~ %.2f sec. EBF=%.2f", current_depth - 1, (ft - it) / CLOCKS_PER_SEC, EBF);
+			printf(" => Concluded ply %d search in ~ %.2f sec. EBF=%.2f", current_depth - 1, stopWatch.elapsed, EBF);
 			printf("\nQuiescent Nodes: %d\n", GlobalQuiescenceNodes);
 		}
 		else if (strcmp(tokens[0], "help") == 0 || strcmp(tokens[0], "?") == 0)
@@ -1271,13 +1227,7 @@ int epdTest(char *filename)
 	Game game;
 	int nepd = 0;
 	FILE *epdfile = fopen(filename, "r");
-	FILE *log = fopen("log", "w");
 
-	if (log == NULL)
-	{
-		printf("\n => Couldn;t open log file\n");
-		return -1;
-	}
 	if (epdfile == NULL)
 	{
 		printf("\nCan't Open file: %s \n", filename);
@@ -1316,21 +1266,19 @@ int epdTest(char *filename)
 			thinking = 1;
 			INIT_MUTEX(StopIterate);
 			printf("\n => thinking ...\n");
-			double it, ft;
-			it = clock();
+			Start(&stopWatch);
 			Think(&game);
 			WAIT(IterativeDeepening);
-			ft = clock();
+			Stop(&stopWatch);
 
 			printBoardinfo(&game.Position);
 			printf("\n => Score: %d\n", Scores[current_depth - 1]);
-			printf(" => Concluded ply %d search in ~ %.2f sec.", current_depth - 1, (ft - it) / CLOCKS_PER_SEC);
+			printf(" => Concluded ply %d search in ~ %.2f sec.", current_depth - 1, stopWatch.elapsed);
 			printf("\n move: ");
 			printmove(&BEST, &game.Position, SAN);
 			printf("\n Correct Move: %s\n", Answer);
-			fprintf(log, "\nepd #%d engine move: %s, Correct move: %s", nepd++, movie, Answer);
+			printf("\nepd #%d engine move: %s, Correct move: %s", nepd++, moveOutput, Answer);
 		}
 	}
 	fclose(epdfile);
-	fclose(log);
 }

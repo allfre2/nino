@@ -23,7 +23,7 @@ Move PV[MAX_DEPTH]; // Principal Variation Heuristic
 int PVdepth;
 int Galpha, Gbeta;
 Line pv[MAX_DEPTH];
-Move BEST, BEAST;
+Move BEST, TMP_BEST;
 int Scores[MAX_DEPTH];
 int Extendedplies;
 Move MovesBuffer[MAX_DEPTH][MAXMOVES];
@@ -276,7 +276,7 @@ int Search(int ply, Boardmap *Position, int alpha, int beta)
 		pv[ply].length = 0;
 
 		if (ply == current_depth)
-			BEAST.flags = NOMOVE;
+			TMP_BEST.flags = NOMOVE;
 
 		if (INCHECK(Position))
 		{
@@ -288,7 +288,7 @@ int Search(int ply, Boardmap *Position, int alpha, int beta)
 	else
 	{
 		if (ply == current_depth)
-			memcpy(&BEAST, &moves[Best], sizeof(Move)), BEAST.flags = VALID;
+			memcpy(&TMP_BEST, &moves[Best], sizeof(Move)), TMP_BEST.flags = VALID;
 	}
 
 	if (ply == current_depth)

@@ -2,7 +2,7 @@
 #define CHESS_DEBUG_H
 #endif
 
-#define NOTIMPLEMENTED printf(":'( \nNot implemented\n")
+#define NOTIMPLEMENTED printf("\n Not implemented :'(\n")
 
 typedef struct
 {

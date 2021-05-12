@@ -67,10 +67,10 @@ THREAD_RETURN_VAL Iterate(void *data)
     if (exit == 0 && current_depth < MAX_DEPTH &&
         Scores[current_depth - 1] < (INFINITY - MAX_DEPTH) &&
         Scores[current_depth - 1] > (-INFINITY + MAX_DEPTH) &&
-        BEAST.flags != NOMOVE)
+        TMP_BEST.flags != NOMOVE)
     {
       memcpy(pvTMP, pv, sizeof(Line) * MAX_DEPTH);
-      memcpy(&BEST, &BEAST, sizeof(Move));
+      memcpy(&BEST, &TMP_BEST, sizeof(Move));
       if (post || !xboard)
       {
         Post(&game->Position);

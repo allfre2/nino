@@ -1,10 +1,10 @@
 
 CC = gcc
-CFLAGS = -std=c99 -O2 -Wall -w
+CFLAGS = -std=c99 -O3 -Wall -w
 POSIXTHREADS = -lpthread
-OBJS = main.o gen.o common.o thread.o tm.o notation.o search.o eval.o xboard.o hash.o move.o tt.o variants.o debug.o book.o
+OBJS = main.o gen.o common.o thread.o tm.o notation.o search.o eval.o xboard.o hash.o move.o tt.o debug.o book.o
 OUT=../bin/nino
-SOURCES = main.c gen.c common.c thread.c tm.c notation.c search.c eval.c xboard.c hash.c move.c tt.c variants.c debug.c book.c 
+SOURCES = main.c gen.c common.c thread.c tm.c notation.c search.c eval.c xboard.c hash.c move.c tt.c debug.c book.c 
 RM = rm
 
 default: nino clean

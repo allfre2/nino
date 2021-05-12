@@ -30,7 +30,7 @@ static inline void UpdatePV(int, Move *);
 
 extern Move PV[MAX_DEPTH]; // Principal Variation Heuristic
 extern int PVScores[MAX_DEPTH];
-extern Move BEST, BEAST;
+extern Move BEST, TMP_BEST;
 extern short Mhistory[64][64];
 extern Move Killers[2];
 extern int Scores[MAX_DEPTH];
