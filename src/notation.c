@@ -7,12 +7,11 @@ const char castlingchars[] = {"-KkQq"};
 const char PgnTags[NTAGS][MAXTAGLEN] = {"Event", "Site", "Date", "Round", "White", "Black", "Result",
 										"Opening", "Variation", "ECO", "FEN", "PlyCount", "Time", ""};
 
-const char PgnErrorMsjs[][50] = {"C"};
+const char PgnErrorMsgs[][50] = {"C"};
 
 int ValidateFEN(char *fen)
 {
-	int field = BOARD,
-		count = 0;
+	int field = BOARD;
 
 	for (int i = 0; i < MAXFENLEN; ++i)
 	{
@@ -45,11 +44,7 @@ int ValidateFEN(char *fen)
 	}
 }
 
-int FixFEN(char *original, char *fixed)
-{
-}
-
-/* THis function need the extra espaces removed from the fen string and othher validations before applying it*/
+/* THis function needs the extra espaces removed from the fen string and other validations before applying it*/
 int SetfromFEN(char *fen, Boardmap *Bmap)
 {
 	int field = BOARD,

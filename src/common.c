@@ -35,7 +35,6 @@ const char Pieces[] = {"pnbrqkPNBRQK."};
         ".", 0};
 #endif
 
-const char NPIECET[12] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 const char Castling_rights[] = {0x00, 0x01, 0x02, 0x04, 0x08, 0x0f};
 
 const uint64 CastleShortMask[][2] = {
@@ -51,7 +50,6 @@ const uint64 CastleLongMask[][2] = {
     {0x0000000000000001, 0x0100000000000000}};
 
 const uint64 epSqs[2] = {0x0000ff0000000000, 0x0000000000ff0000};
-const uint64 promoteSqs[2] = {0x00000000000000ff, 0xff00000000000000};
 const uint64 PwnStartSqs[2] = {0x000000000000ff00, 0x00ff000000000000};
 const uint64 CenterSqs = 0x00007c3c3c3e0000;
 
@@ -87,33 +85,7 @@ int Select(char c, char *options)
     return 0;
 }
 
-int Mirror(Boardmap *Position)
-{
-    Position->turn ^= 1;
-    Map(Position);
-}
-
-uint64 PowerOfTwo(uint64 x)
+inline uint64 PowerOfTwo(uint64 x)
 {
     return ((x) && ((x) & ((x)-1)) == 0) ? 1 : 0;
-}
-
-char Log2(uint64 v)
-{
-    char l = 64;
-
-    if (v & 0x00000000FFFFFFFF)
-        l -= 32;
-    if (v & 0x0000FFFF0000FFFF)
-        l -= 16;
-    if (v & 0x00FF00FF00FF00FF)
-        l -= 8;
-    if (v & 0x0F0F0F0F0F0F0F0F)
-        l -= 4;
-    if (v & 0x3333333333333333)
-        l -= 2;
-    if (v & 0x5555555555555555)
-        l -= 1;
-
-    return l - 1;
 }

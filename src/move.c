@@ -8,7 +8,6 @@
 #include "notation.h"
 #include <string.h>
 
-Line SortPv;
 int SortPly;
 
 int MakeMove(Move *move, Boardmap *Position)
@@ -183,7 +182,7 @@ int MakeMove(Move *move, Boardmap *Position)
 	Position->key ^= castleRandomNumbers[Position->castle];
 	Position->turn ^= 1;
 	/* Map attacked*/
-	_fastMap(Position, affectedSqs);
+	fastMap(Position, affectedSqs);
 }
 
 int UnMakeMove(Move *move, Boardmap *Position)
@@ -336,7 +335,7 @@ int UnMakeMove(Move *move, Boardmap *Position)
 		Position->board[move->to] = move->saved;				 /*return whatever was on the destination square*/
 	}
 	/* Map */
-	_fastMap(Position, affectedSqs);
+	fastMap(Position, affectedSqs);
 }
 
 int MoveCmp(Move *a, Move *b)

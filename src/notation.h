@@ -78,14 +78,10 @@ enum
 
 } PgnErrorCodes;
 
-/* FEN notation support */
 int ValidateFEN(char *);
-int FixFEN(char *, char *);
 int SetfromFEN(char *, Boardmap *);
 int GetFENof(Boardmap *, char *);
-void InitPgn(Pgn *); /* Maybe takes a PV line, a Game, or book/database as argument */
 int LoadPgnFromFile(void *, Pgn *, int);
-int SavePgnToFile(Pgn *, void *);
 int wichTag(char *);
 int PrintPgn(Pgn *);
 int SANmove(Move *, Boardmap *, char *);

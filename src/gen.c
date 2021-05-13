@@ -862,7 +862,7 @@ int Map(Boardmap *Bmap)
 	}
 }
 
-int _fastMap(Boardmap *Bmap, uint64 affectedSqs)
+int fastMap(Boardmap *Bmap, uint64 affectedSqs)
 {	
 	/* Employs shifted boards like Nagasaki chess engine*/
 	/* TODO: Can be faster?*/

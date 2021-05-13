@@ -14,7 +14,6 @@
 #define WICHROOK(n) \
     (((n) == 0 || (n) == 56) ? q : ((n) == 7 || (n) == 63) ? k : NONE)
 
-extern Line SortPv;
 extern int SortPly;
 
 int MakeMove(Move *, Boardmap *);

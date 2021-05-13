@@ -122,7 +122,7 @@ int GenMoves(Boardmap *, Move[]);
 int GenCaptures(Boardmap *, Move[]);
 int GenCheckEscapes(Boardmap *, Move[]);
 int Map(Boardmap *);
-int _fastMap(Boardmap *, uint64);
+int fastMap(Boardmap *, uint64);
 
 extern const int AttackTable[][10];
 extern uint64 Pwns[2];

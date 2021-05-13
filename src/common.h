@@ -188,22 +188,16 @@ typedef struct
 } Game;
 
 void Initboard(Boardmap *, char *);
-int ValidatePosition(Boardmap *);
 int GetpieceN(char);
 int Select(char, char *);
-int Mirror(Boardmap *);
-int PVString(char *, Move[], int);
-char Log2(uint64);
 
 extern int debug;
 extern int xboard;
 extern const uint64 one;
-extern const uint64 zero;
 extern const char Pieces[];
 extern const char *wPieces[];
 extern const char Castling_rights[];
 extern const uint64 epSqs[];
-extern const uint64 promoteSqs[];
 extern const uint64 CenterSqs;
 extern const char StartPositionFEN[];
 extern char algebraic[64][4];
@@ -214,8 +208,7 @@ extern unsigned int RandomNumbers[13][64];
 extern unsigned int epRandomNumbers[64];
 extern unsigned int castleRandomNumbers[0x10];
 extern int Map(Boardmap *);
-extern int fastMap(Boardmap *);
-extern int _fastMap(Boardmap *, uint64);
+extern int fastMap(Boardmap *, uint64);
 extern uint64 PowerOfTwo(uint64);
 extern unsigned int HashKey(Boardmap *);
 extern uint64 PwnFwdSqs[2][64];

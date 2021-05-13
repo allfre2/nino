@@ -71,7 +71,6 @@ short PieceSqValueT[][64] = {
 
 int Eval(Boardmap *Position)
 {
-   Lazyflag = 0;
 
    /* Material evaluation, Maybe later take into account the game stage */
    int score = 0;

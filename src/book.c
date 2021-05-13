@@ -32,6 +32,9 @@ ABKBook * ReadOpeningBook (char * filename)
 		if (book[i].to != 0)
 		{
 			PrintMoveEntry(&(book[i]));
+			int from = (56 - ((book[i].from/8)*8)) + (book[i].from % 8);
+			int to = (56 - ((book[i].to/8)*8)) + (book[i].to % 8);
+			printf("\n%s%s\n", algebraic[from], algebraic[to]);
 			getchar();
 		}
 	}
@@ -69,5 +72,7 @@ void PrintMoveEntry(ABKMoveEntry * book)
 
 void FromBookMove(ABKMoveEntry * book, Move * move)
 {
-
+	move->from = (56 - ((book->from/8)*8)) + (book->from % 8);
+	move->to = (56 - ((book->to/8)*8)) + (book->to % 8);
+	move->promote = book->promotion; // ?
 }

@@ -187,7 +187,7 @@ int fakeperft(int testcases)
 	Start(&stopWatch);
 	for (int i = 0; i < testcases; ++i)
 	{
-		_fastMap(&Position, 0x000f);
+		fastMap(&Position, 0x000f);
 	}
 	Stop(&stopWatch);
 	printf("\n--> fastMap'd %d positions in %f seconds.\n", testcases, stopWatch.elapsed);
