@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -std=c99 -O2 -Wall -w
+CFLAGS = -std=c99 -O2 -Wall -fcommon -w
 POSIXTHREADS = -lpthread
 OBJS = main.o gen.o common.o thread.o tm.o notation.o search.o eval.o xboard.o hash.o move.o tt.o variants.o debug.o book.o
 OUT=../bin/nino
