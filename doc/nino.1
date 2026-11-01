@@ -1,0 +1,88 @@
+.TH nino 1 "November 2026" "Version 1.0" "User Commands"
+.SH NAME
+nino \- CECP/WinBoard chess engine
+.SH SYNOPSIS
+.B nino
+[\fIoptions\fR]
+.SH DESCRIPTION
+\fBNino\fR is a chess engine written in C, originally created as a university programming project. It partially implements the Chess Engine Communication Protocol (CECP) and has been tested with XBoard, WinBoard, and Arena.
+.SH OPTIONS
+.TP
+.B \-h
+Display a short help text.
+.TP
+.B \-v
+Display engine version information.
+.TP
+.B \-tt \fIsize\fR
+Set the amount of memory (in bytes) to assign to the transposition table. If zero, the transposition table is turned off.
+.TP
+.B \-pt \fIsize\fR
+Set the amount of memory (in bytes) to assign to the pawn table. If zero, no pawn table is used.
+.TP
+.B \-book \fIfile\fR
+Use \fIfile\fR as the opening book.
+.SH INTERACTIVE COMMANDS
+When running \fBnino\fR interactively in a terminal, the following commands are available:
+.TP
+.B = \fIor\fR set
+Set the board to the initial state.
+.TP
+.B / \fIor\fR boardinfo
+Print the current state of the board and other information.
+.TP
+.B \fIxxxx\fR
+An algebraic notation chess move (e.g., e2e4). Makes that move on the board.
+.TP
+.B ; n \fIor\fR play n \fIor\fR search n
+Start the chess engine to find a move using a max ply of n.
+.TP
+.B \e n \fIor\fR think n
+Start the chess engine to run for n seconds reaching the maximum ply possible (default is 5 seconds).
+.TP
+.B \- \fIor\fR undo
+Undo the last move.
+.TP
+.B fen
+Print the FEN notation string for the current position.
+.TP
+.B clear
+Clear the terminal screen.
+.TP
+.B debug
+Toggle debug mode on/off.
+.TP
+.B perft n
+Run a performance test with an n-ply depth.
+.TP
+.B epdtest \fIfile\fR
+Read an EPD file and perform a performance test.
+.TP
+.B eval
+Evaluate the current position and output the result.
+.TP
+.B h \fIor\fR hash
+Output the hash for the current position.
+.TP
+.B see \fIsq\fR
+Evaluate Static Exchange Evaluation (SEE) for the specified square (0-63).
+.TP
+.B , \fIor\fR moves
+Show all available moves.
+.TP
+.B < \fIor\fR captures
+Generate and output all captures.
+.TP
+.B attacked
+Print a board representation with all attacked squares.
+.TP
+.B +escape
+Generate and output moves that escape from check.
+.TP
+.B order
+Order available moves based on heuristics and output them.
+.TP
+.B exit, bye \fIor\fR quit
+Exit the program.
+.SH AUTHOR
+Alfredo Luzon (alfredoluzon@hotmail.com; allfre2luzon@gmail.com)

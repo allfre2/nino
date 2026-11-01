@@ -25,6 +25,18 @@ wget https://github.com/allfre2/nino/releases/download/latest/nino_amd64.deb
 sudo apt install ./nino_amd64.deb
 ```
 
+Get Help with:
+
+```bash
+man nino
+```
+
+Remove it with:
+
+```bash
+sudo apt remove nino
+```
+
 ## Windows
 
 I only provide the executables inside a zip file on '_releases_'.

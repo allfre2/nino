@@ -1,6 +1,6 @@
 bin/
 src/*.o
 .*
-
+*.deb
 
 !.gitignore
