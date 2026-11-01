@@ -52,8 +52,13 @@ jobs:
         # 3. Build the Linux .deb package structure
         mkdir -p deb-package/DEBIAN
         mkdir -p deb-package/usr/local/bin
+        mkdir -p deb-package/usr/share/man/man1
+        
         cp dist/nino deb-package/usr/local/bin/nino
         chmod +x deb-package/usr/local/bin/nino
+
+        gzip -c doc/nino.1 > deb-package/usr/share/man/man1/nino.1.gz
+        chmod 644 deb-package/usr/share/man/man1/nino.1.gz
                 
         cat << EOF > deb-package/DEBIAN/control
         Package: nino
