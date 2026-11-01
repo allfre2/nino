@@ -1,0 +1,77 @@
+name: C Project Build & Release
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    # Grants permission to create releases and upload assets
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Required to pull complete tag history
+
+    - name: Install Dependencies and Cross-Compilers
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 zip dpkg
+
+    - name: Build Binaries via Makefile
+      run: |
+        # Create output directory expected by the Makefile
+        mkdir -p ../bin
+        
+        # Build Linux (default target)
+        make default
+        
+        # Build Windows 32-bit & 64-bit targets
+        make win32
+        make win64
+
+    - name: Package Release Archive and .deb
+      run: |
+        # 1. Keep your original zip package for Windows/binaries
+        mkdir -p dist
+        mv ../bin/* dist/
+        zip -r ninoRelease.zip ./dist
+
+        # 2. Get the latest tag using git tag --list with version sorting, fallback to 0.1.0
+        LATEST_TAG=$(git tag --list --sort=-version:refname | head -n 1)
+        VERSION="${LATEST_TAG#v}" # Removes leading 'v' if it exists (e.g., v1.2.3 -> 1.2.3)
+        VERSION="${VERSION:-0.1.0}" # Fallback to 0.1.0 if no tags are found
+        echo "Using package version from tag: $VERSION"
+
+        # 3. Build the Linux .deb package structure
+        mkdir -p deb-package/DEBIAN
+        mkdir -p deb-package/usr/local/bin
+        cp dist/nino deb-package/usr/local/bin/nino
+        chmod +x deb-package/usr/local/bin/nino
+        
+        cat << EOF > deb-package/DEBIAN/control
+        Package: nino
+        Version: $VERSION
+        Section: utils
+        Priority: optional
+        Architecture: amd64
+        Maintainer: allfre2 <github.com/allfre2>
+        Description: Nino Chess Engine
+        EOF
+        
+        # Build the final .deb package file
+        dpkg-deb --build deb-package nino_amd64.deb
+
+    - name: Create GitHub Release and Upload Asset
+      uses: xresloader/upload-to-github-release@v1
+      with:
+        file: "nino_amd64.deb;ninoRelease.zip"
+        tag_name: "latest"
+        overwrite: true
+        update_latest_release: false
