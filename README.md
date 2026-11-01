@@ -17,6 +17,18 @@ $ cd src
 $ make
 ```
 
+## Install on Ubuntu
+
+```bash
+wget https://github.com/allfre2/nino/releases/download/latest/nino_amd64.deb
+
+sudo apt install ./nino_amd64.deb
+```
+
+## Windows
+
+I only provide the executables inside a zip file on '_releases_'.
+
 ## Usage
 
 `=` or `set` Sets the board to the initial state
