@@ -45,7 +45,7 @@ jobs:
         zip -r ninoRelease.zip ./dist
 
         # 2. Get the latest tag using git tag --list with version sorting, fallback to 0.1.0
-        LATEST_TAG=$(git tag --list --sort=-version:refname | head -n 1)
+        LATEST_TAG=$(git tag --list --sort=-version:refname | grep -v '^latest$' | head -n 1)
         VERSION="${LATEST_TAG#v}" # Removes leading 'v' if it exists (e.g., v1.2.3 -> 1.2.3)
         VERSION="${VERSION:-0.1.0}" # Fallback to 0.1.0 if no tags are found
         echo "Using package version from tag: $VERSION"
