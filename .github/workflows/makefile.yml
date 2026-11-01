@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    
+        
     # Grants permission to create releases and upload assets
     permissions:
       contents: write
@@ -29,15 +29,14 @@ jobs:
         # Create output directory expected by the Makefile
         mkdir -p bin
         pushd src
-
         # Build Linux (default target)
         make default
-        
+                
         # Build Windows 32-bit & 64-bit targets
         make win32
         make win64
-
         popd
+
     - name: Package Release Archive and .deb
       run: |
         mkdir -p dist
@@ -55,7 +54,7 @@ jobs:
         mkdir -p deb-package/usr/local/bin
         cp dist/nino deb-package/usr/local/bin/nino
         chmod +x deb-package/usr/local/bin/nino
-        
+                
         cat << EOF > deb-package/DEBIAN/control
         Package: nino
         Version: $VERSION
@@ -65,14 +64,18 @@ jobs:
         Maintainer: allfre2 <github.com/allfre2>
         Description: Nino Chess Engine
         EOF
-        
+                
         # Build the final .deb package file
         dpkg-deb --build deb-package nino_amd64.deb
 
     - name: Create GitHub Release and Upload Asset
-      uses: xresloader/upload-to-github-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        file: "nino_amd64.deb;ninoRelease.zip"
-        tag_name: "latest"
-        overwrite: true
-        update_latest_release: false
+        artifacts: "nino_amd64.deb,ninoRelease.zip"
+        tag: "latest"
+        name: "Latest Release"
+        allowUpdates: true
+        removeIfExists: true
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
