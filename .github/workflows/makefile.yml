@@ -27,8 +27,9 @@ jobs:
     - name: Build Binaries via Makefile
       run: |
         # Create output directory expected by the Makefile
-        mkdir -p ../bin
-        
+        mkdir -p bin
+        pushd src
+
         # Build Linux (default target)
         make default
         
@@ -36,11 +37,11 @@ jobs:
         make win32
         make win64
 
+        popd
     - name: Package Release Archive and .deb
       run: |
-        # 1. Keep your original zip package for Windows/binaries
         mkdir -p dist
-        mv ../bin/* dist/
+        mv bin/* dist/
         zip -r ninoRelease.zip ./dist
 
         # 2. Get the latest tag using git tag --list with version sorting, fallback to 0.1.0
